@@ -43,12 +43,18 @@ hourly_data["temperature_2m"] = hourly_temperature_2m
 hourly_data["rain"] = hourly_rain
 
 hourly_dataframe = pd.DataFrame(data = hourly_data)
+# Printing out the Data
 print(hourly_dataframe)
 
+# Inizialising the Stock we want the info for
 msft = yf.Ticker("^GDAXI")
+
+# Pulling the data
 info = msft.info
-print(msft)
+# print(msft)
 print(info)
+
+# Dumping the Data in Json files
 with open('data.json', 'w') as f:
     json.dump(info, f)
 
