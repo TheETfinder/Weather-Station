@@ -54,7 +54,7 @@ info = msft.info
 # print(msft)
 print(info)
 
-# Dumping the Data in Json files
+# Dumping the Data in JSON files
 with open('data.json', 'w') as f:
     json.dump(info, f)
 
