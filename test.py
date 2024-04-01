@@ -14,10 +14,10 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 # The order of variables in hourly or daily is important to assign them correctly below
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
-	"latitude": 49.0094,
-	"longitude": 8.4044,
-	"hourly": ["temperature_2m", "rain"],
-	"timezone": "Europe/Berlin"
+	"latitude": 49.054539,
+	"longitude": 8.399134,
+	"hourly": "temperature_2m",
+	"forecast_days": 1
 }
 responses = openmeteo.weather_api(url, params=params)
 
@@ -31,7 +31,6 @@ print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")
 # Process hourly data. The order of variables needs to be the same as requested.
 hourly = response.Hourly()
 hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
-hourly_rain = hourly.Variables(1).ValuesAsNumpy()
 
 hourly_data = {"date": pd.date_range(
 	start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
@@ -40,11 +39,10 @@ hourly_data = {"date": pd.date_range(
 	inclusive = "left"
 )}
 hourly_data["temperature_2m"] = hourly_temperature_2m
-hourly_data["rain"] = hourly_rain
 
 hourly_dataframe = pd.DataFrame(data = hourly_data)
-# Printing out the Data
 print(hourly_dataframe)
+
 
 # Inizialising the Stock we want the info for
 msft = yf.Ticker("^GDAXI")
