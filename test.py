@@ -14,11 +14,11 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 # The order of variables in hourly or daily is important to assign them correctly below
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
-	"latitude": 49.054539,
-	"longitude": 8.399134,
+	"latitude": 49.054495,
+	"longitude": 8.399387, 
 	"current": "temperature_2m",
 	"hourly": ["temperature_2m", "rain", "wind_speed_10m"],
-	"forecast_days": 1
+	"forecast_days": 3
 }
 responses = openmeteo.weather_api(url, params=params)
 
@@ -70,6 +70,8 @@ with open('data.json', 'w') as f:
     json.dump(info, f)
 
 hourly_dataframe = hourly_dataframe.to_json()
+
+a = json.encoder(hourly_dataframe)
 
 with open('wetter.json', 'w') as f:
     json.dump(hourly_dataframe, f)
