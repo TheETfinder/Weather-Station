@@ -58,7 +58,7 @@ print(hourly_dataframe)
 
 
 # Inizialising the Stock we want the info for
-msft = yf.Ticker("^GDAXI")
+msft = yf.Ticker("MSFT")
 
 # Pulling the data
 info = msft.info
