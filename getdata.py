@@ -12,6 +12,7 @@ print(current_price)
 with open('wetter.json',mode="r", encoding="utf-8") as weather:
     weather_data = json.load(weather)
 
-    current_weather = weather_data["1"]
+   ## current_weather = weather_data["1"]
 
+## print(current_weather)
 

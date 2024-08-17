@@ -71,7 +71,6 @@ with open('data.json', 'w') as f:
 
 hourly_dataframe = hourly_dataframe.to_json()
 
-a = json.encoder(hourly_dataframe)
 
 with open('wetter.json', 'w') as f:
     json.dump(hourly_dataframe, f)
