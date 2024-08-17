@@ -14,11 +14,11 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 # The order of variables in hourly or daily is important to assign them correctly below
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
-	"latitude": 49.054495,
-	"longitude": 8.399387, 
+	"latitude": 52.520064,
+	"longitude": 13.404772, 
 	"current": "temperature_2m",
 	"hourly": ["temperature_2m", "rain", "wind_speed_10m"],
-	"forecast_days": 3
+	"forecast_days": 5
 }
 responses = openmeteo.weather_api(url, params=params)
 
