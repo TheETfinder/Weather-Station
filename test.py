@@ -4,6 +4,11 @@ import requests_cache
 import pandas as pd
 from retry_requests import retry
 import json
+from datetime import datetime
+
+current_time = datetime.now()
+
+print(current_time.time())
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -59,7 +64,6 @@ print(hourly_dataframe)
 
 # Inizialising the Stock we want the info for
 msft = yf.Ticker("MSFT")
-
 # Pulling the data
 info = msft.info
 # print(msft)
