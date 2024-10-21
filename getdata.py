@@ -10,7 +10,7 @@ current_price = stock_data["currentPrice"]
 
 # Printing the Current Price
 print("The current stock price for MSFT is", current_price, "USD")
-# Opening the Weather Data File and loading it 
+# Opening the Weather Data File and loading it  
 with open('wetter.json',mode="r", encoding="utf-8") as weather:
     weather_data = json.load(weather)
 
