@@ -17,10 +17,16 @@ with open('wetter.json',mode="r", encoding="utf-8") as weather:
 # Getting the Current Temperatur
     temperatur = weather_data["temperature_2m"]
  
-    current_temperatur = temperatur["16"]
+    current_temperatur = temperatur["17"]
 
-    print("The current Temperatur at 1 p.m is", current_temperatur)
+    print("The current Temperatur at 5 p.m is", current_temperatur)
+    
 
+    rain = weather_data["rain"]
+ 
+    current_rain = rain["17"]
+
+    print("The Rain at 5 p.m is", current_rain)
    # current_price_json = current_price.to_json()
 
     with open('searche_data.json', 'w') as data:
