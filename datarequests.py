@@ -77,6 +77,9 @@ print(hourly_dataframe)
 
 hourly_dataframe = hourly_dataframe.to_json()
 
+with open('wetter.json', 'w') as f:
+    f.write(hourly_dataframe)
+
 print(hourly_dataframe)
 
 with open('data.json', mode= "r", encoding="utf-8") as stock:
@@ -94,14 +97,14 @@ with open('wetter.json',mode="r", encoding="utf-8") as weather:
 # Getting the Current Temperatur
     temperatur = weather_data["temperature_2m"]
  
-    current_temperatur = temperatur["19"]
+    current_temperatur = temperatur["22"]
 
     print("The current Temperatur at 5 p.m is", current_temperatur)
     
 
     rain = weather_data["rain"]
  
-    current_rain = rain["17"]
+    current_rain = rain["22"]
 
     print("The Rain at 5 p.m is", current_rain)
    # current_price_json = current_price.to_json()
