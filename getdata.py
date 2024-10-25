@@ -17,7 +17,7 @@ with open('wetter.json',mode="r", encoding="utf-8") as weather:
 # Getting the Current Temperatur
     temperatur = weather_data["temperature_2m"]
  
-    current_temperatur = temperatur["17"]
+    current_temperatur = temperatur["19"]
 
     print("The current Temperatur at 5 p.m is", current_temperatur)
     

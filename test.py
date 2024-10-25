@@ -73,12 +73,15 @@ print(info)
 with open('data.json', 'w') as f:
     json.dump(info, f)
 
+print(hourly_dataframe)
+
 hourly_dataframe = hourly_dataframe.to_json()
 
+print(hourly_dataframe)
 
-with open('wetter.json', 'w') as f:
-    json.dump(hourly_dataframe, f)
-
+with open("wetter.json", "w", encoding="utf-8") as weath:
+    json.dump(hourly_dataframe, weath , ensure_ascii=False, indent= 4, )
+    
 
 with open('data.json', mode= "r", encoding="utf-8") as stock:
     stock_data = json.load(stock)
