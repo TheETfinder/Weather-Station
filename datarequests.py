@@ -19,8 +19,8 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 # The order of variables in hourly or daily is important to assign them correctly below
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
-	"latitude": 48.401506,
-	"longitude": 9.82257, 
+	"latitude": 49.003974,
+	"longitude": 8.370159, 
 	"current": "temperature_2m",
 	"hourly": ["temperature_2m", "rain", "wind_speed_10m"],
 	"forecast_days": 2
@@ -97,16 +97,16 @@ with open('wetter.json',mode="r", encoding="utf-8") as weather:
 # Getting the Current Temperatur
     temperatur = weather_data["temperature_2m"]
  
-    current_temperatur = temperatur["17"]
+    current_temperatur = temperatur["22"]
 
-    print("The current Temperatur at 5 p.m is", current_temperatur)
+    print("The current Temperatur at 10 p.m is", current_temperatur)
     
 
     rain = weather_data["rain"]
  
-    current_rain = rain["17"]
+    current_rain = rain["22"]
 
-    print("The Rain at 5 p.m is", current_rain)
+    print("The Rain at 10 p.m is", current_rain)
    # current_price_json = current_price.to_json()
 
     with open('searche_data.json', 'w') as data:
