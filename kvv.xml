@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Trias version="1.2" xmlns="http://www.vdv.de/trias" xmlns:siri="http://www.siri.org.uk/siri" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vdv.de/trias ../trias-xsd-v1.1/Trias.xsd">
+
+    <ServiceRequest>
+ 
+       <siri:RequestTimeStamp>timenow</siri:RequestTimeStamp>
+
+       <siri:RequestorRef>T3x9Kzw3v6C5</siri:RequestorRef>
+
+         <RequestPayload>
+
+            <StopEventRequest>
+
+                <Location>
+
+                    <LocationRef>
+
+                        <StopPlaceRef>de:08212:7020</StopPointRef>
+
+                    </LocationRef>
+
+                </Location>
+
+                <Params>
+
+                  <IncludeRealtimeData>true</IncludeRealtimeData>
+
+                </Params>
+
+            </StopEventRequest>
+
+         </RequestPayload>
+
+    </ServiceRequest>
+
+</Trias>

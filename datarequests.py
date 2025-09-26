@@ -5,10 +5,19 @@ import pandas as pd
 from retry_requests import retry
 import json
 from datetime import datetime
+import time
+import requests
+import xmltodict, json
+import xml.etree.ElementTree as ET
 
+#Getting the current time
 current_time = datetime.now()
 
 print(current_time.time())
+
+
+
+    # Open-Meteo
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -29,17 +38,10 @@ responses = openmeteo.weather_api(url, params=params)
 
 # Process first location. Add a for-loop for multiple locations or weather models
 response = responses[0]
-#print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
-#print(f"Elevation {response.Elevation()} m asl")
-#print(f"Timezone {response.Timezone()} {response.TimezoneAbbreviation()}")
-#print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")
 
 # Current values. The order of variables needs to be the same as requested.
 current = response.Current()
 current_temperature_2m = current.Variables(0).Value()
-
-#print(f"Current time {current.Time()}")
-#print(f"Current temperature_2m {current_temperature_2m}")
 
 # Process hourly data. The order of variables needs to be the same as requested.
 hourly = response.Hourly()
@@ -58,62 +60,117 @@ hourly_data["rain"] = hourly_rain
 hourly_data["wind_speed_10m"] = hourly_wind_speed_10m
 
 hourly_dataframe = pd.DataFrame(data = hourly_data)
-#print(hourly_dataframe)
+
+hourly_dataframe = hourly_dataframe.to_json()
 
 
+
+    #Yahoo Finance
 
 # Inizialising the Stock we want the info for
 msft = yf.Ticker("MSFT")
 # Pulling the data
 info = msft.info
-#print(msft)
-#print(info)
 
-# Dumping the Data in JSON files
-with open('data.json', 'w') as f:
-    json.dump(info, f)
-
-#print(hourly_dataframe)
-
-hourly_dataframe = hourly_dataframe.to_json()
-
-with open('wetter.json', 'w') as f:
-    f.write(hourly_dataframe)
-
-#print(hourly_dataframe)
-
-with open('data.json', mode= "r", encoding="utf-8") as stock:
-    stock_data = json.load(stock)
-
+stock = info.to_json
 # Getting the Current Price
-current_price = stock_data["currentPrice"]
+current_price = stock["currentPrice"]
+
+
+
+
+#Trias
+
+# api-endpoint
+URL = "https://projekte.kvv-efa.de/mangangtrias/trias"
+
+time_now = time.strftime("%Y-%m-%dT%H:%M:%S")
+day = time.strftime("%Y-%m-%dT")
+
+time_fix = time_now.replace("T", "")
+time = time_fix.replace("Z", "")
+
+print(time_now)
+
+with open('kvv.xml', 'r') as file:
+     mydata = file.read()
+
+data_modified = mydata.replace('timenow',time_now)
+
+headers = {'Content-Type': 'application/xml'} # set what your server accepts
+answer = requests.post(url= URL, data=data_modified, headers=headers).text
+
+data = json.dumps(xmltodict.parse(answer))
+
+fix = data.replace('trias:','')
+
+with open('test.json','w') as a:
+	a.write(fix)
+
+with open('test.json','r') as l:
+	tri = json.load(l)
+
+trias = tri["Trias"]
+
+StopEventResult = trias["ServiceDelivery"]["DeliveryPayload"]["StopEventResponse"]["StopEventResult"]
+
+with open('trias.json', 'w', encoding="utf-8") as trias_json:
+     json.dump(StopEventResult, trias_json)
+
+with open('trias.json', 'r', encoding="unicode-escape") as trias_json_load:
+    trip = json.load(trias_json_load)
+
+
+
+#Printing
 
 # Printing the Current Price
 print("The current stock price for MSFT is", current_price, "USD")
-# Opening the Weather Data File and loading it  
-with open('wetter.json',mode="r", encoding="utf-8") as weather:
-    weather_data = json.load(weather)
+
+# Open-Meteo
 
 # Getting the Current Temperatur
-    temperatur = weather_data["temperature_2m"]
+temperatur = hourly_dataframe["temperature_2m"]
  
-    current_temperatur = temperatur["22"]
+current_temperatur = temperatur["22"]
 
-    print("The current Temperatur at 10 p.m is", current_temperatur)
+print("The current Temperatur at 10 p.m is", current_temperatur)
     
 
-    rain = weather_data["rain"]
+rain = hourly_dataframe["rain"]
  
-    current_rain = rain["22"]
+current_rain = rain["22"]
 
-    print("The Rain at 10 p.m is", current_rain)
+print("The Rain at 10 p.m is", current_rain)
    # current_price_json = current_price.to_json()
 
-    with open('searche_data.json', 'w') as data:
-        json.dump(current_price, data)
 
-    with open('weather.json', 'w') as data:
-        json.dump(current_temperatur, data)
+# Trias
 
+for i in trip :
 
+    Trip_name = i["StopEvent"]["Service"]["ServiceSection"]["PublishedLineName"]["Text"]
+    text_line = Trip_name.encode('latin1').decode('utf8')
 
+    Trip_time = i["StopEvent"]["ThisCall"]["CallAtStop"]["ServiceDeparture"]["TimetabledTime"]
+    text_time = Trip_time.encode('latin1').decode('utf8')
+
+    Trip_dest = i["StopEvent"]["Service"]["DestinationText"]["Text"]
+    text_dest = Trip_dest.encode('latin1').decode('utf8')
+
+    trias_time = text_time.replace("Z","")
+    arr_time = trias_time.replace("T", "")
+    arr = text_time.replace(day, "")
+    time_arr = arr.replace("Z", "")
+    print(arr_time)
+#    dt = datetime.strptime(arr_time, "%a, %d %b %Y %H:%M:%S")
+#    datetime = datetime.datetime-strptime(time,"%Y-%m-%d%H:%M:%S")
+
+#    print(dt)
+#    print(datetime)
+
+    trias_result = "Linie:" + " "+ text_line + " " +"Nach"+ " "+ text_dest + " " +"Abfahrt:" + " "+ time_arr
+
+    print(trias_result)
+
+    print("Request done")
