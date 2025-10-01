@@ -63,6 +63,9 @@ hourly_dataframe = pd.DataFrame(data = hourly_data)
 
 hourly_dataframe = hourly_dataframe.to_json()
 
+with open('wetter.json', 'w') as f:
+    f.write(hourly_dataframe)
+
 
 
     #Yahoo Finance
@@ -72,9 +75,17 @@ msft = yf.Ticker("MSFT")
 # Pulling the data
 info = msft.info
 
-stock = info.to_json
+
+#annoyingly reimporting the data to parse it as a JSON :I
+
+with open('stock.json','w') as file:
+     json.dump(info, file)
+
+with open('stock.json', mode= "r", encoding="utf-8") as stock:
+    stock_data = json.load(stock)
+
 # Getting the Current Price
-current_price = stock["currentPrice"]
+current_price = stock_data["currentPrice"]
 
 
 
@@ -130,14 +141,18 @@ print("The current stock price for MSFT is", current_price, "USD")
 # Open-Meteo
 
 # Getting the Current Temperatur
-temperatur = hourly_dataframe["temperature_2m"]
+
+with open('wetter.json',mode="r", encoding="utf-8") as weather:
+    weather_data = json.load(weather)
+
+temperatur = weather_data["temperature_2m"]
  
 current_temperatur = temperatur["22"]
 
 print("The current Temperatur at 10 p.m is", current_temperatur)
     
 
-rain = hourly_dataframe["rain"]
+rain = weather_data["rain"]
  
 current_rain = rain["22"]
 
@@ -162,7 +177,7 @@ for i in trip :
     arr_time = trias_time.replace("T", "")
     arr = text_time.replace(day, "")
     time_arr = arr.replace("Z", "")
-    print(arr_time)
+    #print(arr_time)
 #    dt = datetime.strptime(arr_time, "%a, %d %b %Y %H:%M:%S")
 #    datetime = datetime.datetime-strptime(time,"%Y-%m-%d%H:%M:%S")
 
@@ -173,4 +188,4 @@ for i in trip :
 
     print(trias_result)
 
-    print("Request done")
+print("Request done")
