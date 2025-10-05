@@ -79,7 +79,7 @@ current_price = stock["currentPrice"]
 
 
 
-#Trias
+    #Trias
 
 # api-endpoint
 URL = "https://projekte.kvv-efa.de/mangangtrias/trias"
