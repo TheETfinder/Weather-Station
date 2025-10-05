@@ -1,1 +1,2 @@
-# Right now, you have to set the Time and Location by hand in the .py if you have any questions dm me on Discord (etfinder)
+# 
+Right now, you have to set the Time and Location by hand in the .py if you have any questions dm me on Discord (etfinder)
