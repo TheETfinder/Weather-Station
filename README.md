@@ -1,2 +1,2 @@
 # 
-Right now, you have to set the Time and Location by hand in the .py if you have any questions dm me on Discord (etfinder)
+This is a small Project I used to learn Python and using xml requests and API's. It's not much and very chaotic but it kinda works :3
